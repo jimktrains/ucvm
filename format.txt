@@ -1,0 +1,136 @@
+µcvm - Virtual Machine for dynamic languages built for microcontrollers
+
+Copyright (C) 2009 James Keener
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Microcontroller Victural Machine (µCVM)
+
+Classes, methods and instance variables are represtend by the CRC-8 of their name
+	Note if the language allows overloading, then the name will be something like the mangled C name with the argument types appended
+	This allows an unknown class (at compile time) to have a method called
+
+Stack based
+Registers
+	IP Instruction Pointer
+	OT	Object Table
+	CT	Class table
+	SP  Stack Pointer
+	BP	Base of Stack
+	EX	Exception Type
+	IS	Inturrupt stack (list of interrupt numbers that occured)
+	IT	Inturrupt Table
+	SR Status Register (from proc)
+	WR	Warning register
+		0: Function exited with unclean stack
+		1: 
+		2:
+		3:
+		4:
+		5:
+		6:
+		7:
+
+Instructions
+	EXE		Execute function
+	EXT		Execute function if true
+	EXF		Execute function if false
+	ETT		Execute tail function call if true
+	ETF		Execute tail function call if false
+	ETL		Execute tail function call
+	PUS val	Push a value on stack
+	POP		Pops second to top value of stack into register at the top of the stack
+	SWP 	Swap top two values on stack
+	CYR		Cycle num value on stack clockwise (RIGHT)
+	CYL		Cycle num values on stack counter-clockwise (LEFT)
+	DUP		Duplicate the top (n?) of the stack
+	STY		Checks if the two objects are of the same or compatible type
+	TYP 	Gets the type of the object on the top of the stack
+	MEX		Method Exist?
+	CLX		Class Exist?
+	NEW		Creates a new object of the type on the top of the stack
+	DEL		Removed the object on the top of the stack
+	WTP		Write to a µC port
+	RDP		Read from a µC port
+	WTN		Write to the network port
+	RDN		Read from a network port
+	ADI		Add two integers
+	SBI		Subtract integers
+	MUI		Multiply two integers
+	SHL		Shift left
+	SHR		Shift right
+	AND		Bitwise AND
+	IOR		Bitwise Inclusive OR
+	XOR		Bitwise Exclusive OR
+	NOT		Bitwise NOT
+	ANL		Logical AND
+	ORL		Logical Inclusive OR
+	XRL		Logical XOR
+	NTL		Logical NOT
+	TLZ		Test less than 0
+	TEZ		Test equal to 0
+	TGZ		Test greater than 0
+	DII		Divide two integers (giving integers)
+	MOI		Modulo two integers
+	DMI		Divide and modulo integers
+#	BRT		Branch if true
+#	BRF		Branch if false
+	TRW		Throw exception
+	SEX		Set Exception
+	ADF		Add function to class (expensive)
+	RMF		Remove function from a class (expensive)
+	RET		Return from a function
+	ADV		Add instance varaible (very expensive)
+	RMV		Remove instance variable (very expensive)
+	ADC		Create new class (expensive)
+	RMC		Remove class
+	CPF		Copy function from one class to another
+	ROJ		Get a reference to an object and it's length in bytes (for debugging?)
+
+Object Data Format
+	1 byte Class ID - class and method on stack
+	n bytes holding data
+Object Description format
+	1 byte Class ID
+	1 byte number variables
+	1 byte number of methods
+	1 byte type of val_1
+	1 byte hash of val_1's name
+	...
+	1 byte type of val_n
+	1 byte hash of val_n's name
+	1 byte hash of fun_1's name
+	2 byte offset from bottom
+	...
+	1 byte hash of fun_m's name
+	2 byte offset from bottom
+	start of code
+Object table
+	1 byte object_1 id
+	1 byte type of object_1
+	...
+	1 byte object_n id
+	1 byte type of object_n
+Class Table
+	1 byte type of class_1
+	2 byte address of class_1
+	...
+	1 byte type of class_n
+	2 byte address of class_n
+Inturrupt Table
+	1 byte inturrupt_1 number
+	1 byte object_1 id
+	...
+	1 byte inturrupt_n number
+	1 byte object_n id
